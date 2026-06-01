@@ -3,6 +3,7 @@ import {
   View, Text, Alert, StyleSheet,
 } from "react-native";
 import * as Location from "expo-location";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import {
   OFFICE_LOCATION, MAX_DISTANCE, calculateDistance,
@@ -11,7 +12,7 @@ import {
 export default function Home() {
   const [distance, setDistance] = useState(0);
   const [isInsideOffice, setIsInsideOffice] = useState(true);
-  const isInsideRef = useRef(true); // ref to avoid stale closure in callback
+  const isInsideRef = useRef(true);
 
   useEffect(() => {
     let subscription;
@@ -23,7 +24,7 @@ export default function Home() {
           timeInterval: 5000,
           distanceInterval: 5,
         },
-        (location) => {
+        async (location) => {
           const distanceInMeters = calculateDistance(
             location.coords.latitude,
             location.coords.longitude,
@@ -34,15 +35,17 @@ export default function Home() {
           setDistance(distanceInMeters.toFixed(2));
 
           if (distanceInMeters > MAX_DISTANCE) {
-            // Left office — only alert and logout once
             if (isInsideRef.current) {
               isInsideRef.current = false;
               setIsInsideOffice(false);
+
+              // ✅ Only remove token — keep savedCredentials for auto-login
+              await AsyncStorage.removeItem("userToken");
+
               Alert.alert("Logged Out", "You left the office area");
               router.replace("/login");
             }
           } else {
-            // Back inside office
             if (!isInsideRef.current) {
               isInsideRef.current = true;
               setIsInsideOffice(true);
