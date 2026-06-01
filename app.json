@@ -8,18 +8,21 @@
     "scheme": "attendanceapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "Allow attendance app to access your location."
+        "NSLocationWhenInUseUsageDescription": "Allow attendance app to access your location.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Allow attendance app to track your location in the background for auto login/logout.",
+        "NSLocationAlwaysUsageDescription": "Allow attendance app to track your location in the background for auto login/logout."
       }
     },
-
     "android": {
       "permissions": [
         "ACCESS_FINE_LOCATION",
-        "ACCESS_COARSE_LOCATION"
+        "ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_BACKGROUND_LOCATION"
       ],
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
@@ -28,20 +31,21 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.shivam_yadav_d9.attendanceapp"
     },
-
     "web": {
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-
     "plugins": [
       "expo-router",
       [
         "expo-location",
         {
-          "locationWhenInUsePermission": "Allow attendance app to access your location."
+          "locationWhenInUsePermission": "Allow attendance app to access your location.",
+          "locationAlwaysAndWhenInUsePermission": "Allow attendance app to track your location in the background.",
+          "isAndroidBackgroundLocationEnabled": true
         }
       ],
       [
@@ -51,16 +55,19 @@
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff",
-          "dark": {
-            "backgroundColor": "#000000"
-          }
+          "dark": { "backgroundColor": "#000000" }
         }
       ]
     ],
-
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "3d0e5494-6d79-461f-ab7b-e11571e5a9ca"
+      }
     }
   }
 }
