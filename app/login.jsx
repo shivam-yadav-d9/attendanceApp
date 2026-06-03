@@ -1,13 +1,18 @@
-import { useState, useEffect } from "react";
-import {
-  View, Text, TextInput, TouchableOpacity,
-  Alert, StyleSheet, StatusBar,
-} from "react-native";
-import { router } from "expo-router";
-import * as Location from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Location from "expo-location";
+import { router } from "expo-router";
+import { useEffect, useState } from "react";
 import {
-  OFFICE_LOCATION, MAX_DISTANCE, calculateDistance,
+  Alert,
+  StatusBar,
+  StyleSheet,
+  Text, TextInput, TouchableOpacity,
+  View,
+} from "react-native";
+import {
+  MAX_DISTANCE,
+  OFFICE_LOCATION,
+  calculateDistance,
 } from "../utils/location";
 
 export default function Login() {
@@ -53,7 +58,7 @@ export default function Login() {
 
               await AsyncStorage.setItem("userToken", "logged_in");
               if (subscription) subscription.remove();
-              router.replace("/home");
+              router.replace("/(tabs)/home");
             } catch (e) {
               console.log("Auto login error:", e);
             }
